@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1020"><title>Workbench</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header><div><span class="eyebrow">PERSONAL PROJECT SYSTEM</span><h1>Workbench</h1></div><button id="resetBtn" class="ghost">Reset demo</button></header>
+<main>
+<section id="home" class="view active">
+<div class="hero"><span class="pill">v0.01</span><h2>Projects with a memory.</h2><p>Capture systems, decisions and the connections between them.</p></div>
+<h3>Workspaces</h3><button class="project-card" data-project="delta"><div class="project-icon">Δ</div><div><strong>Delta Emerald</strong><small>Pokémon Emerald reimagined</small><div class="stats"><span id="systemCount"></span><span id="decisionCount"></span></div></div><b>›</b></button>
+</section>
+<section id="project" class="view">
+<button class="back" data-go="home">‹ Workspaces</button>
+<div class="project-head"><div class="project-icon big">Δ</div><div><span class="eyebrow">PROJECT</span><h2>Delta Emerald</h2><p>Living design specification</p></div></div>
+<div class="tabs"><button class="tab active" data-tab="systems">Systems</button><button class="tab" data-tab="decisions">Decisions</button><button class="tab" data-tab="impact">Impact</button></div>
+<div id="systemsPanel" class="panel"></div><div id="decisionsPanel" class="panel hidden"></div><div id="impactPanel" class="panel hidden"></div>
+</section>
+<section id="detail" class="view">
+<button class="back" data-go="project">‹ Delta Emerald</button><div id="detailBody"></div>
+</section>
+</main>
+<div id="toast"></div><script src="app.js"></script>
+</body></html>
