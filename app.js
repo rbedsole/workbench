@@ -30,7 +30,22 @@ const seed={systems:[
 {id:"hotbar",system:"party",title:"Party hotbar",status:"Decided",text:"Use an overworld hotbar to cycle the active party Pokémon. Cycling recalls the current follower and sends out the newly selected Pokémon.",affects:["battlelead"]},
 {id:"battlelead",system:"party",title:"Active follower enters battle",status:"Decided",text:"Throwing the active Pokémon in the overworld sends that selected Pokémon into battle.",affects:[]}
 ]}
-let data=JSON.parse(localStorage.getItem("workbench-data")||"null")||structuredClone(seed);let current=null;
+function migrate(saved){
+ if(!saved)return structuredClone(seed);
+ const systemsById=new Map((saved.systems||[]).map(x=>[x.id,x]));
+ const decisionsById=new Map((saved.decisions||[]).map(x=>[x.id,x]));
+ const migrated={
+  systems:seed.systems.map(s=>({...structuredClone(s),...(systemsById.get(s.id)||{})})),
+  decisions:seed.decisions.map(d=>{
+   const prior=decisionsById.get(d.id);
+   if(!prior)return structuredClone(d);
+   return {...structuredClone(d),status:prior.status??d.status,text:prior.text??d.text};
+  })
+ };
+ localStorage.setItem("workbench-data",JSON.stringify(migrated));
+ return migrated;
+}
+let data=migrate(JSON.parse(localStorage.getItem("workbench-data")||"null"));let current=null;
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);function save(){localStorage.setItem("workbench-data",JSON.stringify(data))}
 function show(id){$$(".view").forEach(v=>v.classList.remove("active"));$("#"+id).classList.add("active");scrollTo(0,0)}
 function counts(){$("#systemCount").textContent=data.systems.length+" systems";$("#decisionCount").textContent=data.decisions.length+" decisions"}
